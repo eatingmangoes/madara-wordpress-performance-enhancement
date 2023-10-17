@@ -1,6 +1,6 @@
 <?php
 use App\Madara;
-	function yoman() {
+	function cachecreator() {
 		/**
 		 * The Template for content of a manga chapter, listing layout (ie. all images in 1 page), in a Chapter Reading page
 		 *
@@ -73,17 +73,7 @@ use App\Madara;
 
 			$host = $chapter['storage'][ $in_use ]['host'];
 			$src  = apply_filters('wp_manga_chapter_image_url', $host . $link['src'], $host, $link['src'], $post_id, $name);
-			$newsrc = substr($src, 0, -3);
-			//$newthing = $newsrc.'jxl' ;
-			$newthing = substr($newsrc, -20, -5) ;
-			$newthing1 = substr($newsrc, -10, -7) ;
-			$newthing2 = substr($newsrc, -10, -5);
-			$newthing2;
 			list($width, $height) = getimagesize($src) ;
-			if ($newthing1 == "up-") {
-				$width = 720;
-				$height = round($height/2);
-			}
 			if($src != ''){
 
 			
@@ -92,54 +82,12 @@ use App\Madara;
 			$stringtooutput .= '<div class="page-break '.( esc_attr($manga_reading_content_gaps == 'off' ? 'no-gaps' : '' )).'">';
 
 				do_action( 'madara_before_chapter_image', $page, $madara_reading_list_total_item );
+
+				$thepage = esc_attr( $page );
+				$stringtooutput .= '<img id='.$thepage.' src="'.$src.'" alt="image" loading="lazy" width="'.$width.'" height="'.$height.'" />';
 				
 				
 				
-				if ($newthing == "a-jxl-avif-webp") {
-				//if (file_exists($newthing) == 1) {
-					$thepage = esc_attr( $page );
-					$stringtooutput .= '<picture>
-		<source id='.$thepage.' onload="ads_'.$thepage.'()" srcSet="'.$newsrc.'jxl" type="image/jxl" />
-		<source id='.$thepage.' onload="ads_'.$thepage.'()" srcSet="'.$newsrc.'avif" type="image/avif" />
-		<source id='.$thepage.' onload="ads_'.$thepage.'()" srcSet="'.$newsrc.'webp" type="image/webp" />
-		<img id='.$thepage.' onload="ads_'.$thepage.'()" src="'.$src.'" alt="image" loading="lazy" width="'.$width.'" height="'.$height.'" />
-	</picture>';
-				} elseif ($newthing2 == "a-jxl") {
-				//if (file_exists($newthing) == 1) {
-					$thepage = esc_attr( $page );
-					$stringtooutput .= '<picture>
-		<source id='.$thepage.' onload="ads_'.$thepage.'()" srcSet="'.$newsrc.'jxl" type="image/jxl" />
-		<img id='.$thepage.' onload="ads_'.$thepage.'()" src="'.$src.'" alt="image" loading="lazy" width="'.$width.'" height="'.$height.'" />
-	</picture>';
-				} else {
-					$thepage = esc_attr( $page );
-					$stringtooutput .= '<img id='.$thepage.' onload="ads_'.$thepage.'()" src="'.$src.'" alt="image" loading="lazy" width="'.$width.'" height="'.$height.'" />';
-				}
-				
-				
-				$stringtooutput .= '<div id ="ad_ '.esc_attr( $page ).'">';
-			
-				
-				
-				
-				for ($x = 1; $x <= 5; $x++){
-					if (esc_attr( $page ) == strval($x*$noofads)) {
-					$stringtooutput .= '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1920773485851516"
-     crossorigin="anonymous"></script>
-<!-- middle ads -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-1920773485851516"
-     data-ad-slot="4535785698"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>';
-				} else {
-					$stringtooutput .= '<div id=adssomething'.$page.'></div>';
-				}
-				}
 			
 				
 				/**
@@ -180,6 +128,6 @@ if (file_exists($filename)) {
 	fclose($myfile);
 	echo $reading_chapter['chapter_id'];
 } else {
-    yoman();
+    cachecreator();
 }
 ?>
